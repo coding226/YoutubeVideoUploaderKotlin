@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="upload_ptn_padding">40dp</dimen>
+    <dimen name="screen_padding">20dp</dimen>
+    <dimen name="user_image">40dp</dimen>
+    <dimen name="video_image_size">100dp</dimen>
+</resources>
