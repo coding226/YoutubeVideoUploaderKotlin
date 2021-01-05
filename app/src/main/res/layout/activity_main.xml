@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -43,27 +44,26 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="@dimen/screen_padding">
 
-            <RelativeLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:background="@drawable/gallery_background"
-                app:layout_constraintDimensionRatio="3:2">
+                app:layout_constraintDimensionRatio="3:2"
+                card_view:cardCornerRadius="@dimen/galler_background_corners">
 
                 <ImageView
                     android:id="@+id/videoThumbImageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/gallery_background"
                     android:scaleType="centerCrop" />
 
                 <ImageView
                     android:layout_width="@dimen/video_image_size"
                     android:layout_height="@dimen/video_image_size"
-                    android:layout_centerInParent="true"
+                    android:layout_gravity="center"
                     android:onClick="onSelectVideoClicked"
-                    android:src="@drawable/video_icon"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent" />
-            </RelativeLayout>
+                    android:src="@drawable/video_icon" />
+            </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <EditText
@@ -85,6 +85,7 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="Uploaded Video Url" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -116,23 +117,42 @@
             android:progress="0"
             android:progressDrawable="@drawable/upload_progress" />
 
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/upload_btn"
-            android:onClick="uploadVideo"
-            android:paddingLeft="@dimen/upload_ptn_padding"
-            android:paddingRight="@dimen/upload_ptn_padding"
-            android:text="Upload"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="25dp" />
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/upload_btn"
+                android:onClick="uploadVideo"
+                android:paddingLeft="@dimen/upload_ptn_padding"
+                android:paddingRight="@dimen/upload_ptn_padding"
+                android:text="Upload"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="25dp" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/upload_btn"
+                android:onClick="dispatchTakeVideoIntent"
+                android:paddingLeft="@dimen/upload_ptn_padding"
+                android:paddingRight="@dimen/upload_ptn_padding"
+                android:text="Record"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="25dp" />
+        </LinearLayout>
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
 </RelativeLayout>

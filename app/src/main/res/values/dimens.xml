@@ -4,4 +4,5 @@
     <dimen name="screen_padding">20dp</dimen>
     <dimen name="user_image">40dp</dimen>
     <dimen name="video_image_size">100dp</dimen>
+    <dimen name="galler_background_corners">10dp</dimen>
 </resources>

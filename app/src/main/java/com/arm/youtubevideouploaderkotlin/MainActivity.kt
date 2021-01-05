@@ -17,10 +17,13 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentTransaction
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.util.ExponentialBackOff
 import com.google.api.services.youtube.YouTubeScopes
 import kotlinx.android.synthetic.main.activity_main.*
+
+const val REQUEST_VIDEO_CAPTURE = 1
 
 class MainActivity : AppCompatActivity() {
 
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     val PREF_ACCOUNT_NAME = "google_account_pref"
     var mCredential: GoogleAccountCredential? = null
     var accountName: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -111,6 +115,9 @@ class MainActivity : AppCompatActivity() {
                     ).execute(videoUri)
                 }
             }
+        }
+        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            openRecorderFragment(data?.data);
         }
     }
 
@@ -199,6 +206,30 @@ class MainActivity : AppCompatActivity() {
             videoName,
             progressBar
         ).execute(videoUri)
+    }
+
+    fun openRecorderFragment(videoUri: Uri?) {
+        val transaction: FragmentTransaction = supportFragmentManager.beginTransaction()
+        val videoFile = UploadTask.getFileFromUri(videoUri, this)
+        transaction.add(R.id.fragmentContainer, VideoRecordFragment.newInstance(videoFile))
+        transaction.commit()
+    }
+
+
+    fun dispatchTakeVideoIntent(view: View) {
+        if (ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Intent(MediaStore.ACTION_VIDEO_CAPTURE).also { takeVideoIntent ->
+                takeVideoIntent.resolveActivity(packageManager)?.also {
+                    startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE)
+                }
+            }
+        }else{
+            Toast.makeText(baseContext,"No Storage Permission",Toast.LENGTH_SHORT).show()
+        }
     }
 
 
